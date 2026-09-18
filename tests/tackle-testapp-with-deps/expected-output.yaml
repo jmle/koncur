@@ -4075,6 +4075,82 @@
   - spring-boot-2.x-to-3.0-webapp-changes-00020
   - spring-boot-2.x-to-3.0-webapp-changes-00030
   - spring-boot-2.x-to-3.0-webapp-changes-00040
+- name: spring-boot-4
+  description: Ruleset for migration from Spring Boot 3.x to Spring Boot 4.0
+  unmatched:
+  - actuator-annotation-00010
+  - actuator-dependency-00010
+  - actuator-pattern-00010
+  - actuator-pattern-00020
+  - actuator-pattern-00030
+  - batch-dependency-00010
+  - build-pattern-00010
+  - build-pattern-00020
+  - build-xml-00010
+  - config-pattern-00010
+  - config-pattern-00020
+  - config-pattern-00030
+  - core-import-00010
+  - core-import-00020
+  - core-method-00010
+  - data-annotation-00010
+  - data-change-00010
+  - data-dependency-00010
+  - data-dependency-00020
+  - data-dependency-00030
+  - data-dependency-00040
+  - data-dependency-00050
+  - data-dependency-00060
+  - data-pattern-00010
+  - data-pattern-00020
+  - data-pattern-00030
+  - data-pattern-00040
+  - data-pattern-00050
+  - data-pattern-00060
+  - data-pattern-00070
+  - data-pattern-00080
+  - data-pattern-00090
+  - data-pattern-00100
+  - database-migration-dependency-00010
+  - database-migration-dependency-00020
+  - dependencies-dependency-00010
+  - dependencies-dependency-00020
+  - dependencies-dependency-00030
+  - dependencies-dependency-00040
+  - dependencies-dependency-00050
+  - dependencies-dependency-00060
+  - dependencies-dependency-00070
+  - dependencies-pattern-00010
+  - devtools-dependency-00010
+  - json-annotation-00010
+  - json-annotation-00020
+  - json-import-00010
+  - json-import-00020
+  - json-import-00030
+  - json-import-00040
+  - messaging-change-00010
+  - messaging-change-00020
+  - messaging-pattern-00010
+  - security-method-00010
+  - session-dependency-00010
+  - session-dependency-00020
+  - session-pattern-00010
+  - session-pattern-00020
+  - test-annotation-00010
+  - test-annotation-00020
+  - test-annotation-00030
+  - test-annotation-00040
+  - test-change-00010
+  - test-change-00020
+  - test-dependency-00010
+  - testing-annotation-00010
+  - testing-annotation-00020
+  - testing-dependency-00010
+  - web-change-00010
+  - web-dependency-00010
+  - web-dependency-00020
+  - web-pattern-00010
+  - web-server-dependency-00010
 - name: spring-framework
   description: Ruleset for migration of Spring Framework versions
   violations:
@@ -4365,6 +4441,44 @@
   - spring-framework-5.x-to-6.0-web-applications-00001
   - spring-framework-5.x-to-6.0-web-applications-00030
   - spring-framework-5.x-to-6.0-web-applications-00040
+- name: spring-framework-7
+  description: Ruleset for migration from Spring Framework 6.x to Spring Framework 7.0
+  unmatched:
+  - aop-annotation-00010
+  - core-dependency-00010
+  - core-import-00010
+  - core-import-00020
+  - core-import-00030
+  - core-import-00040
+  - core-import-00050
+  - core-method-00010
+  - dependencies-dependency-00010
+  - dependencies-dependency-00020
+  - dependencies-dependency-00030
+  - graalvm-change-00010
+  - graalvm-change-00020
+  - graalvm-change-00030
+  - jms-import-00010
+  - orm-import-00010
+  - orm-import-00020
+  - resilience-import-00010
+  - resilience-import-00020
+  - test-change-00010
+  - test-import-00010
+  - test-import-00020
+  - test-import-00030
+  - testing-annotation-00010
+  - web-import-00010
+  - web-import-00020
+  - web-import-00030
+  - web-import-00040
+  - web-import-00050
+  - web-import-00060
+  - web-import-00070
+  - web-import-00080
+  - web-import-00090
+  - web-import-00100
+  - web-method-00010
 - name: technology-usage
   description: This ruleset provides analysis of logging libraries.
   tags:
