@@ -4077,9 +4077,64 @@
   - spring-boot-2.x-to-3.0-webapp-changes-00040
 - name: spring-boot-4
   description: Ruleset for migration from Spring Boot 3.x to Spring Boot 4.0
+  violations:
+    actuator-dependency-00010:
+      description: Liveness and readiness probes now enabled by default
+      category: potential
+      labels:
+      - konveyor.io/generated-by=ai-rule-gen
+      - konveyor.io/source=spring-boot
+      - konveyor.io/source=spring-boot3
+      - konveyor.io/target=spring-boot
+      - konveyor.io/target=spring-boot4
+      incidents:
+      - uri: file:///source/pom.xml
+        message: |-
+          In Spring Boot 4, the liveness and readiness probes are now enabled by default. The health endpoint now exposes the `liveness` and `readiness` groups automatically.
+
+          ### Migration Steps
+          - If you do not need these probes, disable them by setting `management.endpoint.health.probes.enabled=false` in your application properties
+          - If you were previously enabling them explicitly, you can remove that configuration as it's now the default behavior
+          - The health endpoint will automatically expose `/actuator/health/liveness` and `/actuator/health/readiness` endpoints
+
+          ### Additional Info
+          - This is a behavioral change that may affect your monitoring and orchestration setup
+          - Kubernetes and other container orchestrators can now use these endpoints without additional configuration
+          - Review your health check configuration to ensure the new default behavior aligns with your requirements
+          - See [Migration Guide](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide#liveness-and-readiness-probes)
+        codeSnip: |2-
+
+          79  <artifactId>spring-webmvc</artifactId>
+          80  <version>${spring-framework.version}</version>
+          81  </dependency>
+          82  <dependency>
+          83  <groupId>org.springframework</groupId>
+          84  <artifactId>spring-web</artifactId>
+          85  <version>${spring-framework.version}</version>
+          86  </dependency>
+          87  <dependency>
+          88  <groupId>org.springframework.boot</groupId>
+          89  <artifactId>spring-boot-starter-actuator</artifactId>
+          90  <version>2.5.0</version>
+          91  </dependency>
+          92  <dependency>
+          93  <groupId>org.apache.tomcat</groupId>
+          94  <artifactId>tomcat-jdbc</artifactId>
+          95  <version>${tomcat.version}</version>
+          96  <scope>runtime</scope>
+          97  </dependency>
+          98  <dependency>
+          99  <groupId>org.hibernate</groupId>
+        lineNumber: 88
+        variables:
+          name: org.springframework.boot.spring-boot-starter-actuator
+          version: 2.5.0
+      links:
+      - url: https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide#liveness-and-readiness-probes
+        title: Migration Documentation
+      effort: 1
   unmatched:
   - actuator-annotation-00010
-  - actuator-dependency-00010
   - actuator-pattern-00010
   - actuator-pattern-00020
   - actuator-pattern-00030
@@ -4443,16 +4498,107 @@
   - spring-framework-5.x-to-6.0-web-applications-00040
 - name: spring-framework-7
   description: Ruleset for migration from Spring Framework 6.x to Spring Framework 7.0
+  violations:
+    core-dependency-00010:
+      description: Spring Framework 7.0 baseline requirements
+      category: mandatory
+      labels:
+      - konveyor.io/generated-by=ai-rule-gen
+      - konveyor.io/source=spring-framework
+      - konveyor.io/source=spring-framework6
+      - konveyor.io/target=spring-framework
+      - konveyor.io/target=spring-framework7
+      incidents:
+      - uri: file:///source/pom.xml
+        message: |-
+          Spring Framework 7.0 introduces new baseline requirements that affect the entire application stack.
+
+          ### Baseline Requirements
+
+          Spring Framework 7.0 requires:
+
+          - **JDK**: Minimum JDK 17, recommended JDK 25 (latest LTS)
+          - **Servlet**: 6.1+ (Tomcat 11.0, Jetty 12.1)
+          - **JPA**: 3.2+ (Hibernate ORM 7.1/7.2)
+          - **Bean Validation**: 3.1+ (Hibernate Validator 9.0/9.1)
+          - **GraalVM**: 25+ with new "exact reachability metadata" format
+          - **Netty**: 4.2+
+          - **Kotlin**: 2.2+
+          - **JUnit**: 6+
+          - **Jakarta EE**: 11 baseline
+
+          ### Migration Steps
+
+          1. Upgrade to JDK 17 or later (JDK 25 recommended)
+          2. Update your servlet container to Tomcat 11+, Jetty 12.1+, or equivalent
+          3. Upgrade JPA provider to Hibernate ORM 7.1/7.2 or equivalent JPA 3.2 implementation
+          4. Update Hibernate Validator to 9.0/9.1 for Bean Validation 3.1
+          5. If using GraalVM native images, upgrade to GraalVM 25
+          6. Update Netty to 4.2+
+          7. If using Kotlin, upgrade to Kotlin 2.2+
+          8. Migrate from JUnit 4/5 to JUnit 6
+          9. Migrate all `javax.*` imports to `jakarta.*` for Jakarta EE 11 compliance
+
+          ### Additional Info
+
+          - All baseline upgrades are mandatory for Spring Framework 7.0
+          - The Jakarta EE 11 baseline requires migrating from `javax` to `jakarta` packages
+          - These changes affect dependencies throughout your application
+          - See the [Spring Framework 7.0 Release Notes](https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-7.0-Release-Notes) for complete details
+        codeSnip: "\n59  <dependency>\n60  <groupId>com.fasterxml.jackson.core</groupId>\n61  <artifactId>jackson-core</artifactId>\n62  </dependency>\n63  <dependency>\n64  <groupId>com.fasterxml.jackson.core</groupId>\n65  <artifactId>jackson-databind</artifactId>\n66  </dependency>\n67  <dependency>\n68  <groupId>org.springframework.data</groupId>\n69  <artifactId>spring-data-jpa</artifactId>\n70  </dependency>\n71  \n72  <dependency>\n73  <groupId>org.springframework</groupId>\n74  <artifactId>spring-jdbc</artifactId>\n75  <version>${spring-framework.version}</version>\n76  </dependency>\n77  <dependency>\n78  <groupId>org.springframework</groupId>\n79  <artifactId>spring-webmvc</artifactId>"
+        lineNumber: 68
+        variables:
+          name: org.springframework.spring-core
+          version: 5.3.7
+      links:
+      - url: https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-7.0-Release-Notes
+        title: Migration Documentation
+      effort: 7
+    dependencies-dependency-00010:
+      description: Removed in Spring Framework 7.0
+      category: mandatory
+      labels:
+      - konveyor.io/generated-by=ai-rule-gen
+      - konveyor.io/source=spring-framework
+      - konveyor.io/source=spring-framework6
+      - konveyor.io/target=spring-framework
+      - konveyor.io/target=spring-framework7
+      incidents:
+      - uri: file:///source/pom.xml
+        message: |-
+          The `spring-jcl` module has been removed in Spring Framework 7.0 in favor of Apache Commons Logging 1.3.0.
+
+          This change should be transparent for most applications, as `spring-jcl` was a transitive dependency. The logging API calls should not change.
+
+          ### Migration Steps
+
+          1. Remove any explicit `spring-jcl` dependency declarations from your `pom.xml` or `build.gradle`
+          2. Ensure Apache Commons Logging 1.3.0 is available (it will be pulled transitively by Spring Framework 7.0)
+          3. No code changes should be necessary
+
+          ### Additional Info
+
+          - The migration is primarily at the dependency level
+          - Logging API usage remains compatible
+          - Apache Commons Logging 1.3.0 is the direct replacement
+          - See [#32459](https://github.com/spring-projects/spring-framework/issues/32459) for more details
+        codeSnip: "\n59  <dependency>\n60  <groupId>com.fasterxml.jackson.core</groupId>\n61  <artifactId>jackson-core</artifactId>\n62  </dependency>\n63  <dependency>\n64  <groupId>com.fasterxml.jackson.core</groupId>\n65  <artifactId>jackson-databind</artifactId>\n66  </dependency>\n67  <dependency>\n68  <groupId>org.springframework.data</groupId>\n69  <artifactId>spring-data-jpa</artifactId>\n70  </dependency>\n71  \n72  <dependency>\n73  <groupId>org.springframework</groupId>\n74  <artifactId>spring-jdbc</artifactId>\n75  <version>${spring-framework.version}</version>\n76  </dependency>\n77  <dependency>\n78  <groupId>org.springframework</groupId>\n79  <artifactId>spring-webmvc</artifactId>"
+        lineNumber: 68
+        variables:
+          name: org.springframework.spring-jcl
+          version: 5.3.7
+      links:
+      - url: https://github.com/spring-projects/spring-framework/issues/32459
+        title: Migration Documentation
+      effort: 1
   unmatched:
   - aop-annotation-00010
-  - core-dependency-00010
   - core-import-00010
   - core-import-00020
   - core-import-00030
   - core-import-00040
   - core-import-00050
   - core-method-00010
-  - dependencies-dependency-00010
   - dependencies-dependency-00020
   - dependencies-dependency-00030
   - graalvm-change-00010
