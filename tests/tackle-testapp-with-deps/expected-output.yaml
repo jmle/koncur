@@ -2498,6 +2498,61 @@
           name: org.apache.tomcat.tomcat-jdbc
           version: 9.0.46
       effort: 1
+- name: openjdk8/openjdk7
+  description: Rules for migrating from openjdk7 to openjdk8
+  violations:
+    compilation-annotation-00010:
+      description: Spring MVC parameter binding without explicit names requires -parameters
+        javac flag in JDK 8
+      category: potential
+      labels:
+      - konveyor.io/generated-by=ai-rule-gen
+      - konveyor.io/source=openjdk7
+      - konveyor.io/target=openjdk8
+      incidents:
+      - uri: file:///source/tackle-testapp-public/src/main/java/io/konveyor/demo/ordermanagement/controller/CustomerController.java
+        lineNumber: 17
+        message: "JDK 8 introduced the ability to access method parameter names at\
+          \ runtime via `java.lang.reflect.Parameter.getName()`, but this requires\
+          \ the `-parameters` flag during `javac` compilation. Spring MVC controller\
+          \ methods that rely on implicit parameter name discovery (without explicit\
+          \ `@PathVariable(\"name\")` or `@RequestParam(\"name\")`) will receive `arg0`,\
+          \ `arg1`, etc. as parameter names if the flag is absent, breaking URL parameter\
+          \ binding."
+      - uri: file:///source/tackle-testapp-public/src/main/java/io/konveyor/demo/ordermanagement/controller/CustomerController.java
+        lineNumber: 35
+        message: "JDK 8 introduced the ability to access method parameter names at\
+          \ runtime via `java.lang.reflect.Parameter.getName()`, but this requires\
+          \ the `-parameters` flag during `javac` compilation. Spring MVC controller\
+          \ methods that rely on implicit parameter name discovery (without explicit\
+          \ `@PathVariable(\"name\")` or `@RequestParam(\"name\")`) will receive `arg0`,\
+          \ `arg1`, etc. as parameter names if the flag is absent, breaking URL parameter\
+          \ binding."
+      effort: 3
+      links:
+      - title: Migration Documentation
+        url: https://www.oracle.com/java/technologies/javase/8-whats-new.html
+  unmatched:
+  - collections-import-00010
+  - collections-import-00020
+  - collections-method-00010
+  - datetime-change-00010
+  - datetime-change-00020
+  - internal-api-dependency-00010
+  - internal-api-dependency-00020
+  - internal-api-dependency-00030
+  - internal-api-import-00010
+  - jdbc-type-00010
+  - jdbc-type-00020
+  - jdbc-type-00030
+  - jvm-flags-pattern-00010
+  - jvm-flags-pattern-00020
+  - jvm-flags-pattern-00030
+  - jvm-pattern-00010
+  - jvm-pattern-00020
+  - security-method-00010
+  - security-pattern-00010
+  - security-pattern-00020
 - name: quarkus/springboot
   description: This ruleset gives hints to migrate from SpringBoot devtools to Quarkus
   violations:
