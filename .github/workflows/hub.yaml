@@ -47,7 +47,11 @@ jobs:
         timeout-minutes: 10
 
       - name: Install Tackle Hub
-        run: make hub-install IMAGE_TAG=${{ inputs.image_tag }}
+        # Deploy the operator for the branch under test (not main). Otherwise a
+        # release-branch PR runs release hub/addon images against main's operator,
+        # whose newer extensions (e.g. maven caCert) the release addon injector
+        # cannot resolve ("identity:kind=maven.caCert, not-matched").
+        run: make hub-install IMAGE_TAG=${{ inputs.image_tag }} OPERATOR_REF=${{ github.base_ref || github.ref_name }}
         timeout-minutes: 20
 
       - name: Wait for Hub readiness
